@@ -1,0 +1,51 @@
+/* ═══ LS ADMIN - ADuty-Namensschild (Schwarz-Theme wie HUD/Notify) ═══ */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }
+
+#tags { position: absolute; inset: 0; pointer-events: none; }
+
+/* Ankerpunkt: sitzt exakt auf der Kopf-Position, Badge waechst nach oben */
+.tag {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    transform-origin: bottom center;
+}
+
+.badge {
+    display: flex; flex-direction: column; align-items: center;
+    background: linear-gradient(180deg, rgba(16, 16, 16, 0.92) 0%, rgba(6, 6, 6, 0.92) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    padding: 5px 16px 7px 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+    white-space: nowrap;
+}
+
+/* kleiner Zeiger unten zum Spieler hin */
+.badge::after {
+    content: "";
+    position: absolute;
+    left: 50%; bottom: -6px;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(10, 10, 10, 0.92);
+}
+
+/* Zeile 1: Raute in Rollenfarbe + Rollen-Label */
+.role {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+}
+.role .diamond { font-size: 9px; line-height: 1; }
+
+/* Zeile 2: Spielername */
+.name {
+    font-size: 15px; font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}

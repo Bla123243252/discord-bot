@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Chat';
+    src: url('./fonts/chalet.otf');
+}
+
+:root {
+    --ff-rageui: 'Chat';
+    --color-white: rgba(255, 255, 255, 1);
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--ff-rageui);
+    user-select: none;
+    color: var(--color-white);
+}

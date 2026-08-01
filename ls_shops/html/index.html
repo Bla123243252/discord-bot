@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app" class="hidden">
+    <div class="panel">
+
+        <!-- HEADER -->
+        <div class="panel-header">
+            <div class="header-left">
+                <div class="shop-icon" id="shopIcon">🛒</div>
+                <div class="header-text">
+                    <div class="header-title" id="shoplabel">SHOP</div>
+                    <div class="header-sub">ZENITH ROLEPLAY</div>
+                </div>
+            </div>
+            <button class="close-btn" id="closebtn">✕</button>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="shop">
+                <span class="tab-icon">🏪</span>
+                Sortiment
+            </button>
+            <button class="tab" data-tab="cart">
+                <span class="tab-icon">🛒</span>
+                Warenkorb
+                <span class="cart-badge hidden" id="cartBadge">0</span>
+            </button>
+        </div>
+
+        <!-- TAB: SHOP -->
+        <div class="tab-content active" id="tab-shop">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input id="search" type="text" placeholder="Suchen..." autocomplete="off">
+                </div>
+                <div class="cats" id="cats"></div>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid" id="grid"></div>
+            <div class="empty hidden" id="empty">Keine Artikel gefunden.</div>
+        </div>
+
+        <!-- TAB: WARENKORB -->
+        <div class="tab-content" id="tab-cart">
+            <div class="cart-empty-msg" id="cartEmpty">
+                <div class="cart-empty-icon">🛒</div>
+                <div>Dein Warenkorb ist leer.</div>
+            </div>
+            <div class="cart-list hidden" id="cartItems"></div>
+
+            <!-- Footer immer sichtbar -->
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span>Gesamt</span>
+                    <span id="total" class="total-val">$0</span>
+                </div>
+                <div class="pay-row">
+                    <button class="pay-btn wallet" id="payWallet" disabled>
+                        <span>💵</span> Bargeld
+                    </button>
+                    <button class="pay-btn bank" id="payBank" disabled>
+                        <span>💳</span> Bankkarte
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

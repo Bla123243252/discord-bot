@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&display=swap"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Backdrop — Klick außerhalb schließt Menü -->
+<div class="backdrop hidden" id="backdrop" onclick="closeMenu()"></div>
+
+<div id="menu" class="menu hidden">
+
+  <!-- Header -->
+  <div class="menu_header">
+    <div class="menu_header_left">
+      <div class="menu_logo_wrap">
+        <i class="fa-solid fa-truck-medical menu_logo"></i>
+      </div>
+      <div>
+        <div class="menu_title">LSMD Dispatch</div>
+        <div class="menu_subtitle">Zenith Roleplay</div>
+      </div>
+    </div>
+    <div class="menu_header_right">
+      <div class="menu_badge">
+        <span class="menu_badge_num" id="dispatch_count">0</span>
+        <span class="menu_badge_label">Aufträge</span>
+      </div>
+      <button class="menu_close_btn" onclick="closeMenu()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu_divider"></div>
+
+  <!-- Dispatch Liste -->
+  <div class="menu_body">
+    <div id="no_dispatches" class="no_dispatches">
+      <i class="fa-solid fa-circle-check no_dispatches_icon"></i>
+      <div class="no_dispatches_text">Keine aktiven Aufträge</div>
+      <div class="no_dispatches_sub">Alle Patienten sind versorgt</div>
+    </div>
+    <div id="dispatch_list" class="dispatch_list"></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

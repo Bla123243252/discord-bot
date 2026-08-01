@@ -1,0 +1,1 @@
+-- Init/Platzhalter, weitere Client-Logik liegt in heartbeat.lua/resource_report.lua/panel.lua

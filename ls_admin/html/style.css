@@ -1,0 +1,311 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+:root {
+    --menu-color: 0, 75, 30;
+    --menu-x: 1.4vw;
+    --menu-y: 12%;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: normal !important; }
+
+body {
+    background: none !important;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden !important;
+    user-select: none;
+    font-family: Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root { height: 100%; }
+
+::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
+
+/* ============ WRAPPER ============ */
+.PWrapper {
+    position: absolute;
+    left: var(--menu-x);
+    top: var(--menu-y);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Inter;
+}
+
+.PWrapper .PRightElements {
+    position: relative;
+    display: flex;
+    width: 19.0104vw;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ============ BANNER ============ */
+.PWrapper .PBanner {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 4.4vw;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-top-left-radius: .4167vw;
+    border-top-right-radius: .4167vw;
+    background:
+        radial-gradient(120% 140% at 50% -20%, rgba(var(--menu-color), 0.85) 0%, rgba(var(--menu-color), 0.12) 55%, rgba(0,0,0,0) 75%),
+        linear-gradient(180deg, #14181a 0%, #050607 100%);
+    box-shadow: inset 0 -0.1vw 0 rgba(var(--menu-color), 0.65);
+}
+
+.PWrapper .PBanner .PBannerText {
+    position: relative;
+    font-size: 1.65vw;
+    font-weight: 800;
+    letter-spacing: .18vw;
+    color: #fff;
+    text-shadow:
+        0 0 .3vw rgba(var(--menu-color), 0.9),
+        0 0 .8vw rgba(var(--menu-color), 0.6),
+        0 .12vw .2vw rgba(0,0,0,0.8);
+}
+
+/* ============ CATEGORY / TITLE BAR ============ */
+.PWrapper .PCategories {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 1.5625vw;
+    margin-bottom: .2604vw;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 .6vw;
+    background-color: #000;
+    border-left: .0521vw solid #000;
+    border-right: .0521vw solid #000;
+    border-bottom: .0521vw solid rgba(var(--menu-color), 0.5);
+    border-bottom-left-radius: .3125vw;
+    border-bottom-right-radius: .3125vw;
+}
+
+.PWrapper .PCategories .PCatTitle {
+    font-size: .68vw;
+    font-weight: 500;
+    color: #fff;
+}
+
+.PWrapper .PCategories .PCatCounter {
+    font-size: .62vw;
+    font-weight: 350;
+    color: rgba(255,255,255,0.6);
+}
+
+/* ============ TABS ============ */
+.PWrapper .PTabs {
+    position: relative;
+    display: flex;
+    width: 19.0104vw;
+    max-height: 14.0625vw;
+    padding-bottom: .0521vw;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0009;
+    border-radius: .3125vw;
+    overflow-y: auto;
+}
+
+.PWrapper .PTabs .PTab {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 1.5625vw;
+    min-height: 1.5625vw;
+    justify-content: center;
+    align-items: center;
+    transition: background .12s ease;
+}
+
+/* selected row */
+.PWrapper .PTabs .PTab.Selected {
+    background: linear-gradient(90deg, rgba(var(--menu-color), 0.55) 0%, rgba(var(--menu-color), 0.12) 100%);
+    box-shadow: inset .18vw 0 0 rgba(var(--menu-color), 1);
+}
+
+.PWrapper .PTabs .PTab .PTLabel {
+    position: absolute;
+    left: .55vw;
+    width: 60%;
+    font-size: .66vw;
+    font-weight: 350;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.PWrapper .PTabs .PTab .PTArrow {
+    position: absolute;
+    right: .65vw;
+    font-size: .8vw;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+}
+
+.PWrapper .PTabs .PTab .Scrollable {
+    position: absolute;
+    right: .55vw;
+    display: flex;
+    gap: .2604vw;
+    align-items: center;
+    font-size: .64vw;
+    font-weight: 350;
+    color: #fff;
+}
+
+.PWrapper .PTabs .PTab .Scrollable .Chev { color: rgba(var(--menu-color), 1); font-weight: 700; }
+
+/* ============ DIVIDER (section) ============ */
+.PWrapper .PTabs .PTab .Divider {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    width: 92%;
+    justify-content: space-between;
+    align-items: center;
+    gap: .2604vw;
+}
+
+.PWrapper .PTabs .PTab .Divider .Left,
+.PWrapper .PTabs .PTab .Divider .Right {
+    position: relative;
+    width: 15%;
+    height: .14vw;
+    background-color: rgba(var(--menu-color), 0.8);
+    border-radius: 5vw;
+}
+
+.PWrapper .PTabs .PTab .Divider .Label {
+    font-size: .6vw;
+    font-weight: 500;
+    color: #e1e1e1;
+    white-space: nowrap;
+    padding: 0 .5vw;
+    text-transform: uppercase;
+    letter-spacing: .04vw;
+}
+
+/* ============ CHECKBOX (pill toggle) ============ */
+.PWrapper .PTabs .PTab .Checkbox {
+    position: absolute;
+    right: .55vw;
+    display: flex;
+    width: 1.5625vw;
+    height: .7813vw;
+    align-items: center;
+    justify-content: flex-start;
+    background: #1a1a1a;
+    border-radius: 999vw;
+    transition: .2s ease;
+    box-shadow:
+        inset 0 .10vw .25vw rgba(0,0,0,0.8),
+        inset .10vw 0 .25vw rgba(0,0,0,0.85);
+}
+
+.PWrapper .PTabs .PTab .Checkbox.Checked {
+    background: rgba(var(--menu-color), 0.95);
+    box-shadow:
+        inset 0 .10vw .25vw rgba(0,0,0,0.85),
+        0 0 .32vw rgba(var(--menu-color), 0.5);
+}
+
+.PWrapper .PTabs .PTab .Checkbox .Inside {
+    position: absolute;
+    left: .15vw;
+    width: .4167vw;
+    height: .4167vw;
+    background: #e8e8e8;
+    border-radius: 999vw;
+    transition: .2s ease;
+    box-shadow: 0 .05vw .1vw rgba(0,0,0,0.6), inset 0 .03vw .06vw rgba(255,255,255,0.6);
+}
+
+.PWrapper .PTabs .PTab .Checkbox.Checked .Inside { left: .95vw; }
+
+/* ============ METADATA PANEL ============ */
+.PWrapper .Metadata {
+    position: absolute;
+    width: 12.5vw;
+    left: 19.8vw;
+    top: 4.6vw;
+    display: flex;
+    flex-direction: column;
+    gap: .2083vw;
+    background: rgba(0,0,0,0.78);
+    border: .10vw solid rgba(var(--menu-color), 0.55);
+    box-shadow: 0 0 .42vw rgba(var(--menu-color), 0.4), inset 0 0 .26vw rgba(0,0,0,0.55);
+    border-radius: .2604vw;
+    padding: .5208vw;
+}
+
+.PWrapper .Metadata .Title span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: .64vw;
+    font-weight: 400;
+    color: #fffc;
+}
+
+.PWrapper .Metadata .Line {
+    width: 100%;
+    height: .013vw;
+    margin: .2083vw 0;
+    background-color: #ffffff40;
+}
+
+.PWrapper .Metadata .Value {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.PWrapper .Metadata .Value .Key { font-size: .6vw; font-weight: 300; color: #fff; }
+.PWrapper .Metadata .Value .Val { font-size: .6vw; font-weight: 400; color: rgba(var(--menu-color), 1); }
+
+/* ============ FOOTER ============ */
+.PWrapper .PFooter {
+    position: relative;
+    display: flex;
+    width: 19.0104vw;
+    height: 1.5625vw;
+    margin-top: .2083vw;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    border-radius: .15vw;
+}
+
+.PWrapper .PFooter .PBuild {
+    position: absolute;
+    left: .6vw;
+    font-size: .62vw;
+    font-weight: 350;
+    color: rgba(var(--menu-color), 1);
+    letter-spacing: .06vw;
+}
+
+.PWrapper .PFooter .PIndicator {
+    position: absolute;
+    right: .6vw;
+    font-size: .62vw;
+    font-weight: 350;
+    color: #fff;
+}
+
+.Hidden { display: none !important; }

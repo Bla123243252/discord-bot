@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LS Admin</title>
+<style>
+:root { --accent: 124, 58, 237; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: transparent !important; user-select: none; }
+#root { position: fixed; inset: 0; }
+#root.hidden { display: none; }
+
+/* ── C++ / ImGui style window ── */
+.win {
+  position: absolute;
+  left: 2vw; top: 22%;
+  width: 17vw; min-width: 290px;
+  background: #0c0c0f;
+  border: 1px solid rgba(var(--accent), .9);
+  box-shadow: 0 0 0 1px #000, 0 .6vw 2vw rgba(0,0,0,.8), 0 0 1.2vw rgba(var(--accent), .35);
+  font-family: Consolas, "Courier New", monospace;
+  color: #d6d6d6;
+}
+
+/* title bar */
+.titlebar {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 2vw; min-height: 30px; padding: 0 .6vw;
+  background: linear-gradient(180deg, #1a1a20, #121216);
+  border-bottom: 1px solid rgba(var(--accent), .9);
+}
+.titlebar .brand { display: flex; align-items: center; gap: .45vw; font-size: .8vw; font-weight: 700; letter-spacing: .05vw; color: #fff; }
+.titlebar .brand .sq { width: .55vw; height: .55vw; min-width: 9px; min-height: 9px; background: rgb(var(--accent)); box-shadow: 0 0 .4vw rgb(var(--accent)); }
+.titlebar .brand .pg { color: rgba(var(--accent), 1); font-weight: 500; }
+.titlebar .cnt { font-size: .68vw; color: #777; }
+
+/* sub info */
+.sub {
+  display: flex; justify-content: space-between;
+  padding: .25vw .6vw; font-size: .66vw; color: #8a8a8a;
+  background: #0a0a0d; border-bottom: 1px solid #1c1c22;
+}
+.sub .r { color: rgba(var(--accent), 1); }
+
+/* body list */
+.body { max-height: 58vh; overflow-y: auto; padding: .25vw 0; }
+.body::-webkit-scrollbar { width: 4px; }
+.body::-webkit-scrollbar-thumb { background: rgba(var(--accent), .7); }
+.body::-webkit-scrollbar-track { background: #111; }
+
+/* section / divider */
+.sec { display: flex; align-items: center; gap: .4vw; padding: .45vw .6vw .15vw; }
+.sec .t { font-size: .6vw; font-weight: 700; letter-spacing: .12vw; text-transform: uppercase; color: rgba(var(--accent), 1); white-space: nowrap; }
+.sec .ln { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(var(--accent), .55), #222); }
+
+/* rows */
+.row {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 1.5vw; min-height: 23px; padding: 0 .6vw 0 .55vw;
+  border-left: 2px solid transparent; cursor: pointer;
+}
+.row:hover { background: #16161c; }
+.row.sel { background: rgba(var(--accent), .16); border-left-color: rgb(var(--accent)); }
+.row .lab { font-size: .72vw; color: #cfcfcf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row.sel .lab { color: #fff; }
+.row .ctl { font-size: .7vw; display: flex; align-items: center; }
+
+/* checkbox (ImGui square) */
+.cb { width: .8vw; height: .8vw; min-width: 13px; min-height: 13px; border: 1px solid #555; background: #0a0a0d; position: relative; }
+.cb.on { background: rgb(var(--accent)); border-color: rgb(var(--accent)); box-shadow: 0 0 .4vw rgba(var(--accent), .7); }
+.cb.on::after { content: ""; position: absolute; left: 50%; top: 46%; width: .26vw; height: .5vw; min-width: 4px; min-height: 8px; border: solid #0c0c0f; border-width: 0 2px 2px 0; transform: translate(-50%,-55%) rotate(45deg); }
+
+/* value scroller */
+.scr { color: #fff; font-size: .72vw; }
+.scr b { color: rgba(var(--accent), 1); padding: 0 .25vw; }
+
+/* submenu arrow */
+.arr { color: rgba(var(--accent), 1); font-weight: 700; font-size: .85vw; }
+
+/* footer */
+.foot { display: flex; justify-content: center; gap: .8vw; padding: .3vw; font-size: .58vw; color: #666; border-top: 1px solid #1c1c22; background: #0a0a0d; }
+.foot span b { color: #999; }
+</style>
+</head>
+<body>
+<div id="root" class="hidden">
+  <div class="win">
+    <div class="titlebar">
+      <div class="brand"><div class="sq"></div>LS_ADMIN <span class="pg" id="title">main</span></div>
+      <div class="cnt" id="counter">0/0</div>
+    </div>
+    <div class="sub">
+      <div class="r" id="role">-</div>
+      <div id="idinfo">ID -</div>
+    </div>
+    <div class="body" id="body"></div>
+    <div class="foot">
+      <span><b>UP/DN</b> nav</span><span><b>L/R</b> wert</span><span><b>ENTER</b> ok</span><span><b>BACK</b> zur.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const RES = "ls_admin";
+const root = document.getElementById("root");
+const elTitle = document.getElementById("title");
+const elCounter = document.getElementById("counter");
+const elRole = document.getElementById("role");
+const elId = document.getElementById("idinfo");
+const elBody = document.getElementById("body");
+
+function post(name, data) {
+  fetch(`https://${RES}/${name}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=UTF-8" },
+    body: JSON.stringify(data || {})
+  }).catch(() => {});
+}
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function render(d) {
+  if (d.color) document.documentElement.style.setProperty("--accent", d.color);
+  elTitle.textContent = (d.title || "").toLowerCase().replace(/\s+/g, "_");
+  elCounter.textContent = (d.counter || "").replace(/\s/g, "");
+  elRole.textContent = d.role || "-";
+  elId.textContent = "ID " + (d.id != null ? d.id : "-");
+  elBody.innerHTML = "";
+  let selEl = null;
+  (d.items || []).forEach((item, i) => {
+    if (item.kind === "divider") {
+      const s = document.createElement("div");
+      s.className = "sec";
+      s.innerHTML = '<div class="t">' + esc(item.label) + '</div><div class="ln"></div>';
+      elBody.appendChild(s);
+      return;
+    }
+    const row = document.createElement("div");
+    row.className = "row" + (item.selected ? " sel" : "");
+    let ctl = "";
+    if (item.kind === "checkbox") ctl = '<span class="cb' + (item.checked ? " on" : "") + '"></span>';
+    else if (item.kind === "scroll") ctl = '<span class="scr"><b>&lsaquo;</b>' + esc(item.value) + '<b>&rsaquo;</b></span>';
+    else if (item.kind === "submenu") ctl = '<span class="arr">&raquo;</span>';
+    row.innerHTML = '<span class="lab">' + esc(item.label) + '</span><span class="ctl">' + ctl + '</span>';
+    row.addEventListener("click", () => post("activate", { index: i }));
+    elBody.appendChild(row);
+    if (item.selected) selEl = row;
+  });
+  if (selEl) selEl.scrollIntoView({ block: "nearest" });
+}
+
+window.addEventListener("message", (e) => {
+  const d = e.data;
+  if (!d || !d.action) return;
+  if (d.action === "open") root.classList.remove("hidden");
+  else if (d.action === "close") root.classList.add("hidden");
+  else if (d.action === "render") { root.classList.remove("hidden"); render(d); }
+});
+
+post("nuiready", {});
+window.addEventListener("load", () => post("nuiready", {}));
+
+document.addEventListener("keydown", (e) => {
+  if (root.classList.contains("hidden")) return;
+  switch (e.key) {
+    case "ArrowUp": post("nav", { dir: "up" }); e.preventDefault(); break;
+    case "ArrowDown": post("nav", { dir: "down" }); e.preventDefault(); break;
+    case "ArrowLeft": post("nav", { dir: "left" }); e.preventDefault(); break;
+    case "ArrowRight": post("nav", { dir: "right" }); e.preventDefault(); break;
+    case "Enter": post("select"); e.preventDefault(); break;
+    case "Backspace":
+    case "Escape": post("back"); e.preventDefault(); break;
+  }
+});
+</script>
+</body>
+</html>
