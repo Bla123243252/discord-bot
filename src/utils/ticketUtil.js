@@ -334,7 +334,7 @@ async function openTicket(interaction, type, client) {
 
   // Ticket-Nummer hochzählen
   if (!guildConfig) {
-    return interaction.reply({ content: `${config.emojis.error} Bot nicht konfiguriert!`, flags: 64 });
+    return interaction.editReply({ content: `${config.emojis.error} Bot nicht konfiguriert!` });
   }
   guildConfig.ticketCounter = (guildConfig.ticketCounter || 0) + 1;
   await guildConfig.save();

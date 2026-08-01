@@ -98,6 +98,12 @@ module.exports = (client) => {
           await mod.execute(interaction, client);
         } catch (err) {
           console.error(`❌ Select-Handler Fehler [${prefix}]:`, err);
+          const reply = { content: '❌ Fehler beim Verarbeiten.', flags: 64 };
+          if (interaction.replied || interaction.deferred) {
+            await interaction.editReply(reply).catch(() => interaction.followUp(reply).catch(() => {}));
+          } else {
+            await interaction.reply(reply).catch(() => {});
+          }
         }
       }
       return;
