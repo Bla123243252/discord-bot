@@ -41,30 +41,31 @@ module.exports = {
 
         // Alle Member laden
         await guild.members.fetch();
-        const members = guild.members.cache.filter(m => !m.user.bot);
+        const members = [...guild.members.cache.filter(m => !m.user.bot).values()];
         let success = 0;
         let failed  = 0;
 
-        for (const [, member] of members) {
-            try {
+        const BATCH_SIZE = 15; // parallele Requests pro Batch
+        for (let i = 0; i < members.length; i += BATCH_SIZE) {
+            const batch = members.slice(i, i + BATCH_SIZE);
+            const results = await Promise.allSettled(batch.map(member => {
+                const hasRole = member.roles.cache.has(rolle.id);
                 if (aktion === 'add') {
-                    if (!member.roles.cache.has(rolle.id)) {
-                        await member.roles.add(rolle);
-                    } else {
-                        success++; // Hat die Rolle schon → zählt als OK
-                        continue;
-                    }
-                } else {
-                    if (member.roles.cache.has(rolle.id)) {
-                        await member.roles.remove(rolle);
-                    } else {
-                        success++;
-                        continue;
-                    }
+                    return hasRole ? Promise.resolve('skip') : member.roles.add(rolle);
                 }
-                success++;
-            } catch {
-                failed++;
+                return hasRole ? member.roles.remove(rolle) : Promise.resolve('skip');
+            }));
+
+            for (const r of results) {
+                if (r.status === 'fulfilled') success++;
+                else failed++;
+            }
+
+            // Fortschritt alle paar Batches melden
+            if (i + BATCH_SIZE < members.length && (i / BATCH_SIZE) % 4 === 0) {
+                await interaction.editReply({
+                    content: `⏳ Verarbeite... ${Math.min(i + BATCH_SIZE, members.length)}/${members.length} erledigt.`
+                }).catch(() => {});
             }
         }
 
@@ -77,7 +78,7 @@ module.exports = {
                 { name: 'Server',          value: guild.name,                                  inline: true },
                 { name: '✅ Erfolgreich',  value: String(success),                             inline: true },
                 { name: '❌ Fehlgeschl.',  value: String(failed),                              inline: true },
-                { name: 'Gesamt',          value: String(members.size),                        inline: true }
+                { name: 'Gesamt',          value: String(members.length),                       inline: true }
             )
             .setFooter({ text: `Ausgeführt von ${interaction.user.tag}` })
             .setTimestamp();
