@@ -44,30 +44,37 @@ module.exports = {
         const members = [...guild.members.cache.filter(m => !m.user.bot).values()];
         let success = 0;
         let failed  = 0;
+        let done    = 0;
+        let cursor  = 0;
+        let lastReport = 0;
 
-        const BATCH_SIZE = 15; // parallele Requests pro Batch
-        for (let i = 0; i < members.length; i += BATCH_SIZE) {
-            const batch = members.slice(i, i + BATCH_SIZE);
-            const results = await Promise.allSettled(batch.map(member => {
-                const hasRole = member.roles.cache.has(rolle.id);
-                if (aktion === 'add') {
-                    return hasRole ? Promise.resolve('skip') : member.roles.add(rolle);
+        // Worker-Pool: N Worker ziehen durchgehend nach, statt in Blöcken zu warten
+        const CONCURRENCY = 40;
+        async function worker() {
+            while (cursor < members.length) {
+                const member = members[cursor++];
+                try {
+                    const hasRole = member.roles.cache.has(rolle.id);
+                    if (aktion === 'add') {
+                        if (!hasRole) await member.roles.add(rolle);
+                    } else {
+                        if (hasRole) await member.roles.remove(rolle);
+                    }
+                    success++;
+                } catch {
+                    failed++;
                 }
-                return hasRole ? member.roles.remove(rolle) : Promise.resolve('skip');
-            }));
-
-            for (const r of results) {
-                if (r.status === 'fulfilled') success++;
-                else failed++;
-            }
-
-            // Fortschritt alle paar Batches melden
-            if (i + BATCH_SIZE < members.length && (i / BATCH_SIZE) % 4 === 0) {
-                await interaction.editReply({
-                    content: `⏳ Verarbeite... ${Math.min(i + BATCH_SIZE, members.length)}/${members.length} erledigt.`
-                }).catch(() => {});
+                done++;
+                if (done - lastReport >= 60 && done < members.length) {
+                    lastReport = done;
+                    interaction.editReply({
+                        content: `⏳ Verarbeite... ${done}/${members.length} erledigt.`
+                    }).catch(() => {});
+                }
             }
         }
+
+        await Promise.all(Array.from({ length: Math.min(CONCURRENCY, members.length) }, worker));
 
         // Ergebnis als DM an den ausführenden Admin
         const embed = new EmbedBuilder()
