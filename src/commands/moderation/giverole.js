@@ -60,27 +60,29 @@ module.exports = {
 
         await interaction.editReply({ embeds: [progressEmbed] });
 
-        // Alle Member durchgehen
-        for (const [, member] of members) {
-            try {
-                if (aktion === 'add') {
-                    if (!member.roles.cache.has(rolle.id)) {
-                        await member.roles.add(rolle, `/giverole von ${interaction.user.tag}`);
+        // Alle Member in Batches von 10 gleichzeitig verarbeiten
+        const memberArray = [...members.values()];
+        const batchSize = 10;
+
+        for (let i = 0; i < memberArray.length; i += batchSize) {
+            const batch = memberArray.slice(i, i + batchSize);
+
+            await Promise.all(batch.map(async member => {
+                try {
+                    if (aktion === 'add') {
+                        if (!member.roles.cache.has(rolle.id)) await member.roles.add(rolle);
+                    } else {
+                        if (member.roles.cache.has(rolle.id)) await member.roles.remove(rolle);
                     }
-                } else {
-                    if (member.roles.cache.has(rolle.id)) {
-                        await member.roles.remove(rolle, `/giverole entfernt von ${interaction.user.tag}`);
-                    }
+                    success++;
+                } catch {
+                    failed++;
                 }
-                success++;
-            } catch {
-                failed++;
-            }
+                processed++;
+            }));
 
-            processed++;
-
-            // Update alle 25 Member
-            if (processed % 25 === 0 || processed === total) {
+            // Update alle 50 Member
+            if (processed % 50 === 0 || processed >= total) {
                 progressEmbed.setFields(
                     { name: 'Rolle', value: `<@&${rolle.id}>`, inline: true },
                     { name: 'Aktion', value: aktion === 'add' ? 'Hinzufügen' : 'Entfernen', inline: true },
@@ -89,8 +91,8 @@ module.exports = {
                 await interaction.editReply({ embeds: [progressEmbed] }).catch(() => {});
             }
 
-            // Rate-Limit vermeiden
-            await new Promise(r => setTimeout(r, 100));
+            // Kurze Pause zwischen Batches
+            await new Promise(r => setTimeout(r, 50));
         }
 
         // Abschluss-Embed
