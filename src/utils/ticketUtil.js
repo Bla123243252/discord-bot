@@ -89,7 +89,7 @@ const ticketSystem = {
 
   // /ticket panel
   async panel(interaction, client) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     const embed = new EmbedBuilder()
       .setColor(config.colors.ticket)
       .setTitle('🎫 Ticket System')
@@ -315,7 +315,7 @@ const ticketSystem = {
 
 // ── Ticket öffnen (vom Select-Menu) ──────────────────────────────
 async function openTicket(interaction, type, client) {
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   const guild = interaction.guild;
   const guildConfig = await GuildConfig.findOne({ guildId: guild.id });
@@ -334,7 +334,7 @@ async function openTicket(interaction, type, client) {
 
   // Ticket-Nummer hochzählen
   if (!guildConfig) {
-    return interaction.reply({ content: `${config.emojis.error} Bot nicht konfiguriert!`, ephemeral: true });
+    return interaction.reply({ content: `${config.emojis.error} Bot nicht konfiguriert!`, flags: 64 });
   }
   guildConfig.ticketCounter = (guildConfig.ticketCounter || 0) + 1;
   await guildConfig.save();

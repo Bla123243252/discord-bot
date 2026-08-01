@@ -59,7 +59,7 @@ module.exports = {
             .setColor(config.colors.error)
             .setDescription(`${config.emojis.error} Du hast bereits eine ausstehende Bewerbung!`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -134,7 +134,7 @@ module.exports = {
     if (!application) {
       return interaction.reply({
         content: `${config.emojis.error} Keine ausstehende Bewerbung von User-ID \`${userId}\` gefunden!`,
-        ephemeral: true,
+        flags: 64,
       });
     }
 

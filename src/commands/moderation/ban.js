@@ -37,11 +37,11 @@ module.exports = {
     const user  = interaction.options.getUser('user');
     const grund = interaction.options.getString('grund') || 'Kein Grund angegeben';
 
-    if (user.id === interaction.user.id) return interaction.reply({ content: `${config.emojis.error} Du kannst dich nicht selbst bannen!`, ephemeral: true });
-    if (user.id === client.user.id) return interaction.reply({ content: `${config.emojis.error} Ich kann mich nicht selbst bannen!`, ephemeral: true });
+    if (user.id === interaction.user.id) return interaction.reply({ content: `${config.emojis.error} Du kannst dich nicht selbst bannen!`, flags: 64 });
+    if (user.id === client.user.id) return interaction.reply({ content: `${config.emojis.error} Ich kann mich nicht selbst bannen!`, flags: 64 });
 
     const member = await interaction.guild.members.fetch(user.id).catch(() => null);
-    if (member && !member.bannable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht bannen!`, ephemeral: true });
+    if (member && !member.bannable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht bannen!`, flags: 64 });
 
     // ── Permanenter Ban ──────────────────────────────────────
     if (sub === 'add') {
@@ -69,7 +69,7 @@ module.exports = {
     else if (sub === 'temp') {
       const dauerRaw = interaction.options.getString('dauer');
       const duration = ms(dauerRaw);
-      if (!duration) return interaction.reply({ content: `${config.emojis.error} Ungültige Dauer! Beispiel: \`1h\`, \`1d\`, \`7d\``, ephemeral: true });
+      if (!duration) return interaction.reply({ content: `${config.emojis.error} Ungültige Dauer! Beispiel: \`1h\`, \`1d\`, \`7d\``, flags: 64 });
 
       const unbanAt = new Date(Date.now() + duration);
       await sendDM(user, { action: 'Du wurdest temporär gebannt', emoji: '⏰', color: config.colors.error, guildName: interaction.guild.name, reason: grund, duration: dauerRaw });

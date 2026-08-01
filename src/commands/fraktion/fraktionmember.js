@@ -68,7 +68,7 @@ module.exports = {
           .setColor(config.colors.error)
           .setDescription(`${config.emojis.error} Fraktion mit Kürzel \`${kuerzel}\` nicht gefunden!`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -80,7 +80,7 @@ module.exports = {
       if (fraktion.mitglieder.some(m => m.userId === user.id)) {
         return interaction.reply({
           content: `${config.emojis.warning} <@${user.id}> ist bereits Mitglied dieser Fraktion!`,
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -173,7 +173,7 @@ module.exports = {
       if (isNaN(datum.getTime())) {
         return interaction.reply({
           content: `${config.emojis.error} Ungültiges Datum! Format: \`DD.MM.YYYY HH:MM\``,
-          ephemeral: true,
+          flags: 64,
         });
       }
 

@@ -13,11 +13,11 @@ module.exports = {
     });
 
     if (!giveaway) {
-      return interaction.reply({ content: `${config.emojis.error} Giveaway nicht gefunden!`, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Giveaway nicht gefunden!`, flags: 64 });
     }
 
     if (giveaway.ended) {
-      return interaction.reply({ content: `${config.emojis.error} Dieses Giveaway ist bereits beendet!`, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Dieses Giveaway ist bereits beendet!`, flags: 64 });
     }
 
     const userId = interaction.user.id;
@@ -33,7 +33,7 @@ module.exports = {
           .setColor(config.colors.warning)
           .setDescription(`${config.emojis.warning} Du hast deine Teilnahme am Giveaway **widerrufen**.\nDu nimmst jetzt **nicht** mehr teil.`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     } else {
       // Teilnehmen
@@ -52,7 +52,7 @@ module.exports = {
             `*Drücke erneut auf den Button um deine Teilnahme zu widerrufen.*`
           )
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

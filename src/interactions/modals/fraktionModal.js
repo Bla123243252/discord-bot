@@ -59,11 +59,11 @@ module.exports = {
           .setColor(config.colors.error)
           .setDescription(`${config.emojis.error} Eine Fraktion mit dem Kürzel \`${kuerzel}\` existiert bereits!`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     // ── Optionale Rolle & Kanal erstellen ────────────────────
     let roleId    = null;

@@ -14,7 +14,7 @@ module.exports = {
     const avail       = interaction.fields.getTextInputValue('app_availability');
     const extra       = interaction.fields.getTextInputValue('app_extra') || 'Keine';
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     const guildConfig = await GuildConfig.findOne({ guildId: interaction.guild.id });
 

@@ -35,7 +35,7 @@ module.exports = {
       if (isNaN(urlaubBis.getTime()) || urlaubBis < new Date()) {
         return interaction.reply({
           content: `${config.emojis.error} Ungültiges oder vergangenes Datum! Format: \`DD.MM.YYYY\``,
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -66,7 +66,7 @@ module.exports = {
     else if (sub === 'beenden') {
       const member = await TeamMember.findOne({ guildId: interaction.guild.id, userId: interaction.user.id });
       if (!member?.urlaub) {
-        return interaction.reply({ content: `${config.emojis.error} Du bist nicht im Urlaub!`, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.error} Du bist nicht im Urlaub!`, flags: 64 });
       }
 
       member.urlaub    = false;
@@ -93,7 +93,7 @@ module.exports = {
             .setColor(config.colors.info)
             .setDescription(`${config.emojis.info} **${user.tag}** ist aktuell nicht im Urlaub.`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -107,7 +107,7 @@ module.exports = {
           )
           .setTimestamp()
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
   },

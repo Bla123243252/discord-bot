@@ -22,7 +22,7 @@ module.exports = {
           .setColor(config.colors.error)
           .setDescription(`${config.emojis.error} Kein gebannter Benutzer mit der ID \`${userId}\` gefunden!`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

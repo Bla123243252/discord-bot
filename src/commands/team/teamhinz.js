@@ -38,7 +38,7 @@ module.exports = {
     ),
 
   async execute(interaction, client) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     const user   = interaction.options.getUser('user');
     const rolle  = interaction.options.getRole('rolle');

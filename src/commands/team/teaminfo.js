@@ -18,7 +18,7 @@ module.exports = {
           .setColor(config.colors.warning)
           .setDescription(`${config.emojis.info} Keine Team-Daten für **${user.tag}** gefunden.`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

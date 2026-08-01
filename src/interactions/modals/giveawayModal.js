@@ -22,7 +22,7 @@ module.exports = {
           .setTitle(`${config.emojis.error} Ungültige Dauer`)
           .setDescription('Bitte gib eine gültige Dauer an.\n\n**Beispiele:** `30s`, `10m`, `2h`, `1d`, `7d`')
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -30,7 +30,7 @@ module.exports = {
     if (durationMs > 30 * 24 * 60 * 60 * 1000) {
       return interaction.reply({
         content: `${config.emojis.error} Maximale Giveaway-Dauer: **30 Tage**!`,
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -43,11 +43,11 @@ module.exports = {
           .setTitle(`${config.emojis.error} Ungültige Gewinnerzahl`)
           .setDescription('Die Anzahl der Gewinner muss zwischen **1 und 9** liegen.')
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     try {
       const giveaway = await startGiveaway({

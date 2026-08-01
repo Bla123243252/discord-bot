@@ -190,13 +190,13 @@ const giveawayUtil = {
   async end(interaction, messageId, client) {
     const giveaway = await Giveaway.findOne({ messageId, guildId: interaction.guild.id });
     if (!giveaway) {
-      return interaction.reply({ content: `${config.emojis.error} Giveaway nicht gefunden!`, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Giveaway nicht gefunden!`, flags: 64 });
     }
     if (giveaway.ended) {
-      return interaction.reply({ content: `${config.emojis.error} Dieses Giveaway ist bereits beendet!`, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Dieses Giveaway ist bereits beendet!`, flags: 64 });
     }
 
-    await interaction.reply({ content: `${config.emojis.loading} Giveaway wird beendet...`, ephemeral: true });
+    await interaction.reply({ content: `${config.emojis.loading} Giveaway wird beendet...`, flags: 64 });
     await endGiveaway(giveaway, client);
     await interaction.editReply({ content: `${config.emojis.success} Giveaway wurde beendet!` });
   },
@@ -204,7 +204,7 @@ const giveawayUtil = {
   async reroll(interaction, messageId, client) {
     const giveaway = await Giveaway.findOne({ messageId, guildId: interaction.guild.id });
     if (!giveaway || !giveaway.ended) {
-      return interaction.reply({ content: `${config.emojis.error} Kein beendetes Giveaway mit dieser ID gefunden!`, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Kein beendetes Giveaway mit dieser ID gefunden!`, flags: 64 });
     }
 
     const newWinners = pickWinners(giveaway.participants, giveaway.winners);
@@ -226,7 +226,7 @@ const giveawayUtil = {
       ]
     }).catch(() => {});
 
-    await interaction.reply({ content: `${config.emojis.success} Neue Gewinner wurden ausgelost!`, ephemeral: true });
+    await interaction.reply({ content: `${config.emojis.success} Neue Gewinner wurden ausgelost!`, flags: 64 });
   },
 
   async list(interaction, client) {
@@ -238,7 +238,7 @@ const giveawayUtil = {
           .setColor(config.colors.warning)
           .setDescription(`${config.emojis.info} Aktuell gibt es keine aktiven Giveaways!`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -251,7 +251,7 @@ const giveawayUtil = {
       ).join('\n\n'))
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed], ephemeral: true });
+    await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };
 

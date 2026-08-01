@@ -119,7 +119,7 @@ module.exports = {
             .setColor(config.colors.success)
             .setDescription(`${config.emojis.success} **${user.tag}** hat keine Verwarnungen!`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -135,7 +135,7 @@ module.exports = {
         .setFooter({ text: `${warnDoc.warns.length} Verwarnung(en) gesamt` })
         .setTimestamp();
 
-      return interaction.reply({ embeds: [embed], ephemeral: true });
+      return interaction.reply({ embeds: [embed], flags: 64 });
     }
 
     // ── Warn entfernen ───────────────────────────────────────
@@ -143,12 +143,12 @@ module.exports = {
       const warnId  = interaction.options.getString('warn_id');
       const warnDoc = await Warn.findOne({ guildId: interaction.guild.id, userId: user.id });
 
-      if (!warnDoc) return interaction.reply({ content: `${config.emojis.error} Keine Verwarnungen gefunden!`, ephemeral: true });
+      if (!warnDoc) return interaction.reply({ content: `${config.emojis.error} Keine Verwarnungen gefunden!`, flags: 64 });
 
       const before = warnDoc.warns.length;
       warnDoc.warns = warnDoc.warns.filter(w => w.warnId !== warnId);
       if (warnDoc.warns.length === before) {
-        return interaction.reply({ content: `${config.emojis.error} Warn-ID \`${warnId}\` nicht gefunden!`, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.error} Warn-ID \`${warnId}\` nicht gefunden!`, flags: 64 });
       }
       await warnDoc.save();
 

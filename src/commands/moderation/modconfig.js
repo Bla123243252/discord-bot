@@ -67,7 +67,7 @@ module.exports = {
       { upsert: true, new: true }
     );
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     if (sub === 'set') {
       const setting = interaction.options.getString('einstellung');

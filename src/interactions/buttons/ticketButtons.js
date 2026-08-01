@@ -109,7 +109,7 @@ module.exports = {
 
     // ── Transcript manuell ───────────────────────────────────────
     if (customId === 'ticket_transcript_btn') {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply({ flags: 64 });
 
       const ticket = await Ticket.findOne({ channelId: interaction.channel.id });
       if (!ticket) return interaction.editReply({ content: `${config.emojis.error} Kein Ticket gefunden!` });

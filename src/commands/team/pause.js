@@ -16,7 +16,7 @@ module.exports = {
           .setColor(config.colors.error)
           .setDescription(`${config.emojis.error} Du bist nicht im Dienst! Starte zuerst deinen Dienst mit \`/dienst\`.`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

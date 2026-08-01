@@ -15,9 +15,9 @@ module.exports = {
     const grund  = interaction.options.getString('grund') || 'Kein Grund angegeben';
     const member = await interaction.guild.members.fetch(user.id).catch(() => null);
 
-    if (!member) return interaction.reply({ content: `${config.emojis.error} Benutzer nicht auf dem Server!`, ephemeral: true });
-    if (!member.kickable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht kicken!`, ephemeral: true });
-    if (user.id === interaction.user.id) return interaction.reply({ content: `${config.emojis.error} Du kannst dich nicht selbst kicken!`, ephemeral: true });
+    if (!member) return interaction.reply({ content: `${config.emojis.error} Benutzer nicht auf dem Server!`, flags: 64 });
+    if (!member.kickable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht kicken!`, flags: 64 });
+    if (user.id === interaction.user.id) return interaction.reply({ content: `${config.emojis.error} Du kannst dich nicht selbst kicken!`, flags: 64 });
 
     await sendDM(user, { action: 'Du wurdest gekickt', emoji: '👢', color: config.colors.error, guildName: interaction.guild.name, reason: grund });
     await member.kick(grund);

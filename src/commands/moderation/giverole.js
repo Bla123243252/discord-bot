@@ -29,14 +29,14 @@ module.exports = {
         if (rolle.position >= guild.members.me.roles.highest.position) {
             return interaction.reply({
                 content: `❌ Die Rolle **${rolle.name}** ist höher als meine Rolle. Ich kann sie nicht vergeben.`,
-                ephemeral: true
+                flags: 64
             });
         }
 
         // Sofort antworten damit der Interaction nicht abläuft
         await interaction.reply({
             content: `⏳ Verarbeite... Dies kann einige Minuten dauern. Du wirst per DM benachrichtigt wenn es fertig ist.`,
-            ephemeral: true
+            flags: 64
         });
 
         // Alle Member laden
@@ -95,7 +95,7 @@ module.exports = {
             await interaction.user.send({ embeds: [embed] });
         } catch {
             // Falls DMs deaktiviert: in Channel followUp
-            await interaction.followUp({ embeds: [embed], ephemeral: true }).catch(() => {});
+            await interaction.followUp({ embeds: [embed], flags: 64 }).catch(() => {});
         }
 
         // Log-Kanal

@@ -6,7 +6,7 @@ module.exports = {
     if (!interaction.replied && !interaction.deferred) {
       await interaction.reply({
         content: '⚠️ Diese Abstimmung ist nicht mehr aktiv (Bot-Neustart). Bitte eine neue Abstimmung erstellen.',
-        ephemeral: true,
+        flags: 64,
       }).catch(() => {});
     }
   }

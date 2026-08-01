@@ -42,7 +42,7 @@ module.exports = {
       const datum = new Date(year, month-1, day, hour||0, minute||0);
 
       if (isNaN(datum.getTime())) {
-        return interaction.reply({ content: `${config.emojis.error} Ungültiges Datum! Format: \`DD.MM.YYYY HH:MM\``, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.error} Ungültiges Datum! Format: \`DD.MM.YYYY HH:MM\``, flags: 64 });
       }
 
       const embed = new EmbedBuilder()
@@ -60,7 +60,7 @@ module.exports = {
         .setTimestamp();
 
       await interaction.channel.send({ content: pingText, embeds: [embed] });
-      await interaction.reply({ content: `${config.emojis.success} Meeting-Ankündigung gesendet!`, ephemeral: true });
+      await interaction.reply({ content: `${config.emojis.success} Meeting-Ankündigung gesendet!`, flags: 64 });
     }
 
     else if (sub === 'allgemein') {
@@ -76,7 +76,7 @@ module.exports = {
         .setTimestamp();
 
       await interaction.channel.send({ content: pingText, embeds: [embed] });
-      await interaction.reply({ content: `${config.emojis.success} Ankündigung gesendet!`, ephemeral: true });
+      await interaction.reply({ content: `${config.emojis.success} Ankündigung gesendet!`, flags: 64 });
     }
   },
 };

@@ -33,7 +33,7 @@ module.exports = {
     if (!targetChannel) {
       return interaction.reply({
         content: `${config.emojis.error} Kanal nicht gefunden!`,
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -97,7 +97,7 @@ module.exports = {
       content: `👀 **Vorschau** — wird in <#${channelId}> gepostet:`,
       embeds:     [embed],
       components: [previewRow],
-      ephemeral:  true,
+      flags: 64,
     });
 
     const collector = preview.createMessageComponentCollector({

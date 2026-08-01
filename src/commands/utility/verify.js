@@ -81,7 +81,7 @@ module.exports = {
     await interaction.channel.send({ embeds: [embed], components: [row] })
     await interaction.reply({
       content: `${config.emojis.success} Verifizierungs-Panel wurde gesendet! Rolle: <@&${rolle.id}>`,
-      ephemeral: true,
+      flags: 64,
     })
   },
 }

@@ -56,7 +56,7 @@ module.exports = {
       content: '👀 **Vorschau deines Embeds** — Wohin soll er gesendet werden?',
       embeds: [embed],
       components: [previewRow],
-      ephemeral: true,
+      flags: 64,
     });
 
     const collector = preview.createMessageComponentCollector({

@@ -29,7 +29,7 @@ module.exports = {
     const endsAt   = duration ? new Date(Date.now() + duration) : null;
 
     const options = optsRaw.split('|').map(o => o.trim()).filter(Boolean).slice(0, 5);
-    if (options.length < 2) return interaction.reply({ content: `${config.emojis.error} Mindestens 2 Optionen benötigt!`, ephemeral: true });
+    if (options.length < 2) return interaction.reply({ content: `${config.emojis.error} Mindestens 2 Optionen benötigt!`, flags: 64 });
 
     const optionEmojis = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣'];
     const votes        = Object.fromEntries(options.map((_, i) => [i, []]));
@@ -84,7 +84,7 @@ module.exports = {
       return rows;
     };
 
-    await interaction.reply({ content: `${config.emojis.success} Abstimmung wird erstellt...`, ephemeral: true });
+    await interaction.reply({ content: `${config.emojis.success} Abstimmung wird erstellt...`, flags: 64 });
     const msg = await interaction.channel.send({ embeds: [buildEmbed()], components: buildButtons() });
 
     // Poll speichern
@@ -99,7 +99,7 @@ module.exports = {
     collector.on('collect', async (btn) => {
       if (btn.customId === 'poll_end') {
         if (btn.user.id !== interaction.user.id && !btn.member.permissions.has('ManageGuild')) {
-          return btn.reply({ content: `${config.emojis.error} Nur der Ersteller kann die Abstimmung beenden!`, ephemeral: true });
+          return btn.reply({ content: `${config.emojis.error} Nur der Ersteller kann die Abstimmung beenden!`, flags: 64 });
         }
         collector.stop('manual');
         return btn.update({ embeds: [buildEmbed()], components: buildButtons(true) });
@@ -122,7 +122,7 @@ module.exports = {
 
       await btn.reply({
         content: `${config.emojis.success} Du hast für **${options[idx]}** gestimmt!`,
-        ephemeral: true,
+        flags: 64,
       });
     });
 

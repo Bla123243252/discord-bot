@@ -8,7 +8,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
   async execute(interaction, client) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     const bans = await interaction.guild.bans.fetch();
     if (!bans.size) {

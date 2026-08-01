@@ -19,7 +19,7 @@ module.exports = {
     const anzahl = interaction.options.getInteger('anzahl');
     const user   = interaction.options.getUser('user');
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     // Nachrichten holen
     let messages = await interaction.channel.messages.fetch({ limit: 100 });

@@ -27,7 +27,7 @@ module.exports = {
             `Falls du denkst das ist ein Fehler, wende dich an einen Administrator.`
           )
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

@@ -33,7 +33,7 @@ module.exports = (client) => {
               .setColor(0xFF4444)
               .setDescription(`⏳ Warte noch **${remaining}s** bevor du \`/${command.data.name}\` erneut nutzt.`)
             ],
-            ephemeral: true
+            flags: 64
           });
         }
       }
@@ -44,7 +44,7 @@ module.exports = (client) => {
         await command.execute(interaction, client);
       } catch (err) {
         console.error(`❌ Fehler bei /${command.data.name}:`, err);
-        const reply = { embeds: [new EmbedBuilder().setColor(0xFF0000).setDescription('❌ Ein Fehler ist aufgetreten.')], ephemeral: true };
+        const reply = { embeds: [new EmbedBuilder().setColor(0xFF0000).setDescription('❌ Ein Fehler ist aufgetreten.')], flags: 64 };
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp(reply).catch(() => {});
         } else {
@@ -77,7 +77,7 @@ module.exports = (client) => {
         } catch (err) {
           console.error(`❌ Button-Handler Fehler [${prefix}]:`, err);
           if (!interaction.replied && !interaction.deferred) {
-            await interaction.reply({ content: '❌ Fehler beim Verarbeiten.', ephemeral: true }).catch(() => {});
+            await interaction.reply({ content: '❌ Fehler beim Verarbeiten.', flags: 64 }).catch(() => {});
           }
         }
       }

@@ -42,7 +42,7 @@ module.exports = {
     await ch.send({ embeds: [embed] }).catch(() => {});
     await interaction.reply({
       content: `${locking ? config.emojis.error : config.emojis.success} <#${ch.id}> wurde ${locking ? 'gesperrt' : 'entsperrt'}.`,
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

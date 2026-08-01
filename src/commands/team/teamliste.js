@@ -16,7 +16,7 @@ module.exports = {
           .setColor(config.colors.warning)
           .setDescription(`${config.emojis.info} Noch keine Teammitglieder registriert.`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 

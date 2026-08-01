@@ -58,7 +58,7 @@ module.exports = {
         .setTimestamp();
 
       await interaction.channel.send({ content: `🎉 <@${user.id}>`, embeds: [embed] });
-      await interaction.reply({ content: `${config.emojis.success} Mitarbeiter des Monats wurde bekannt gegeben!`, ephemeral: true });
+      await interaction.reply({ content: `${config.emojis.success} Mitarbeiter des Monats wurde bekannt gegeben!`, flags: 64 });
 
       // Punkte vergeben
       await TeamMember.findOneAndUpdate(
@@ -89,7 +89,7 @@ module.exports = {
             .setColor(config.colors.warning)
             .setDescription(`${config.emojis.info} Noch keine Punkte vergeben.`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 

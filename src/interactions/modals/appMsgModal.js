@@ -8,7 +8,7 @@ module.exports = {
     const userId = interaction.customId.replace('appMsg_send_', '');
     const text   = interaction.fields.getTextInputValue('appMsg_text');
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     let dmGesendet = false;
     let gepingt    = false;

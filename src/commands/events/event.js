@@ -56,7 +56,7 @@ module.exports = {
       if (isNaN(datum.getTime()) || datum < new Date()) {
         return interaction.reply({
           content: `${config.emojis.error} Ungültiges oder vergangenes Datum! Format: \`DD.MM.YYYY HH:MM\``,
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -90,7 +90,7 @@ module.exports = {
           .setColor(config.colors.success)
           .setDescription(`${config.emojis.success} Event **${name}** wurde erstellt! <t:${Math.floor(datum.getTime()/1000)}:R>`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -108,7 +108,7 @@ module.exports = {
             .setColor(config.colors.warning)
             .setDescription(`${config.emojis.info} Keine kommenden Events!`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -134,7 +134,7 @@ module.exports = {
       const event = await EventModel.findById(id).catch(() => null);
 
       if (!event || event.guildId !== interaction.guild.id) {
-        return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, flags: 64 });
       }
 
       const embed = buildEventEmbed(event, interaction.guild);
@@ -148,7 +148,7 @@ module.exports = {
       const event = await EventModel.findById(id).catch(() => null);
 
       if (!event || event.guildId !== interaction.guild.id) {
-        return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, flags: 64 });
       }
 
       event.abgesagt = true;
@@ -209,7 +209,7 @@ module.exports = {
             .setColor(config.colors.warning)
             .setDescription(`${config.emojis.info} Keine bevorstehenden Events!`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 

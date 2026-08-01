@@ -18,12 +18,12 @@ module.exports = {
     const grund  = interaction.options.getString('grund') || 'Kein Grund angegeben';
     const member = await interaction.guild.members.fetch(user.id).catch(() => null);
 
-    if (!member) return interaction.reply({ content: `${config.emojis.error} Benutzer nicht gefunden!`, ephemeral: true });
-    if (!member.moderatable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht timen!`, ephemeral: true });
+    if (!member) return interaction.reply({ content: `${config.emojis.error} Benutzer nicht gefunden!`, flags: 64 });
+    if (!member.moderatable) return interaction.reply({ content: `${config.emojis.error} Ich kann diesen Benutzer nicht timen!`, flags: 64 });
 
     const duration = ms(dauer);
     if (!duration || duration > 28 * 24 * 60 * 60 * 1000) {
-      return interaction.reply({ content: `${config.emojis.error} Ungültige Dauer! Max. 28 Tage. Beispiel: \`10m\`, \`2h\`, \`1d\``, ephemeral: true });
+      return interaction.reply({ content: `${config.emojis.error} Ungültige Dauer! Max. 28 Tage. Beispiel: \`10m\`, \`2h\`, \`1d\``, flags: 64 });
     }
 
     await sendDM(user, { action: 'Du wurdest getimeouted', emoji: '🔇', color: config.colors.warning, guildName: interaction.guild.name, reason: grund, duration: dauer });

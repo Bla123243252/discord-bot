@@ -55,7 +55,7 @@ module.exports = {
     if (!application) {
       return interaction.reply({
         content: `${config.emojis.error} Bewerbung bereits bearbeitet!`,
-        ephemeral: true,
+        flags: 64,
       });
     }
 

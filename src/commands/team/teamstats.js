@@ -115,13 +115,13 @@ module.exports = {
           { guildId: interaction.guild.id, userId: user.id },
           { $set: { woche: { montag:0,dienstag:0,mittwoch:0,donnerstag:0,freitag:0,samstag:0,sonntag:0 } } }
         );
-        await interaction.reply({ content: `${config.emojis.success} Wochenstatistik von <@${user.id}> zurückgesetzt.`, ephemeral: true });
+        await interaction.reply({ content: `${config.emojis.success} Wochenstatistik von <@${user.id}> zurückgesetzt.`, flags: 64 });
       } else {
         await TeamMember.updateMany(
           { guildId: interaction.guild.id },
           { $set: { woche: { montag:0,dienstag:0,mittwoch:0,donnerstag:0,freitag:0,samstag:0,sonntag:0 } } }
         );
-        await interaction.reply({ content: `${config.emojis.success} Alle Wochenstatistiken zurückgesetzt.`, ephemeral: true });
+        await interaction.reply({ content: `${config.emojis.success} Alle Wochenstatistiken zurückgesetzt.`, flags: 64 });
       }
     }
   },

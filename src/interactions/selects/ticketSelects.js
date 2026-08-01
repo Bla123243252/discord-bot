@@ -13,7 +13,7 @@ module.exports = {
     if (processing.has(key)) {
       return interaction.reply({
         content: '⏳ Dein Ticket wird bereits erstellt, bitte warte...',
-        ephemeral: true,
+        flags: 64,
       });
     }
 

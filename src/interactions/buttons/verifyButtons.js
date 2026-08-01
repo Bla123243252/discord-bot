@@ -38,7 +38,7 @@ module.exports = {
           .setFooter({ text: 'Zenith Roleplay • Regelwerk', iconURL: interaction.guild.iconURL({ dynamic: true }) })
           .setTimestamp()
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -54,7 +54,7 @@ module.exports = {
             .setColor(config.colors.warning)
             .setDescription(`${config.emojis.info} Du bist bereits verifiziert!`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -74,7 +74,7 @@ module.exports = {
             .setThumbnail(interaction.user.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
           ],
-          ephemeral: true,
+          flags: 64,
         });
 
       } catch (err) {
@@ -84,7 +84,7 @@ module.exports = {
             .setColor(config.colors.error)
             .setDescription(`${config.emojis.error} Fehler beim Vergeben der Rolle. Hat der Bot die nötige Berechtigung?`)
           ],
-          ephemeral: true,
+          flags: 64,
         });
       }
     }

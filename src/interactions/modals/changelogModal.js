@@ -85,7 +85,7 @@ module.exports = {
       content: `👀 **Vorschau** — wird in <#${targetChannel.id}> gepostet:`,
       embeds:     [embed],
       components: [previewRow],
-      ephemeral:  true,
+      flags: 64,
     });
 
     const collector = preview.createMessageComponentCollector({

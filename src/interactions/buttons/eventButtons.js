@@ -13,9 +13,9 @@ module.exports = {
       guildId:   interaction.guild.id,
     });
 
-    if (!event) return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, ephemeral: true });
-    if (event.abgesagt) return interaction.reply({ content: `${config.emojis.error} Dieses Event wurde abgesagt!`, ephemeral: true });
-    if (event.datum < new Date()) return interaction.reply({ content: `${config.emojis.error} Dieses Event hat bereits stattgefunden!`, ephemeral: true });
+    if (!event) return interaction.reply({ content: `${config.emojis.error} Event nicht gefunden!`, flags: 64 });
+    if (event.abgesagt) return interaction.reply({ content: `${config.emojis.error} Dieses Event wurde abgesagt!`, flags: 64 });
+    if (event.datum < new Date()) return interaction.reply({ content: `${config.emojis.error} Dieses Event hat bereits stattgefunden!`, flags: 64 });
 
     const userId = interaction.user.id;
 
@@ -23,7 +23,7 @@ module.exports = {
       if (event.teilnehmer.includes(userId)) {
         return interaction.reply({
           content: `${config.emojis.info} Du bist bereits als Teilnehmer eingetragen!`,
-          ephemeral: true,
+          flags: 64,
         });
       }
       event.teilnehmer.push(userId);
@@ -34,11 +34,11 @@ module.exports = {
           .setColor(config.colors.success)
           .setDescription(`${config.emojis.success} Du nimmst jetzt am Event **${event.name}** teil!\n📅 <t:${Math.floor(event.datum.getTime()/1000)}:F>`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     } else {
       if (!event.teilnehmer.includes(userId)) {
-        return interaction.reply({ content: `${config.emojis.info} Du bist nicht als Teilnehmer eingetragen!`, ephemeral: true });
+        return interaction.reply({ content: `${config.emojis.info} Du bist nicht als Teilnehmer eingetragen!`, flags: 64 });
       }
       event.teilnehmer = event.teilnehmer.filter(id => id !== userId);
       await event.save();
@@ -48,7 +48,7 @@ module.exports = {
           .setColor(config.colors.warning)
           .setDescription(`${config.emojis.warning} Du hast dich vom Event **${event.name}** abgemeldet.`)
         ],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
